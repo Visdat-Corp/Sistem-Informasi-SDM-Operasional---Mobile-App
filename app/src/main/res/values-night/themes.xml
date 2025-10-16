@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Keep same as light; disable dark-specific overrides -->
+    <style name="Base.Theme.PTVisdatTeknikUtama" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

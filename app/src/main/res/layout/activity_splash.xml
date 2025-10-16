@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A4DA3">
+
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:transitionName="app_logo"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/whatsapp_image_2025_09_17_at_12_59_38_7c895b6e"
+        android:contentDescription="Visdat Logo" />
+</RelativeLayout>

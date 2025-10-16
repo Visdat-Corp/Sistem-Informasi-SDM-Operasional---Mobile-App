@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#0A4DA3"
+    android:forceDarkAllowed="false"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/mainLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="24dp"
+        android:transitionName="app_logo"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/whatsapp_image_2025_09_17_at_12_59_38_7c895b6e"
+        android:contentDescription="Logo"/>
+
+    <!-- Judul -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="PT Visdat Teknik Utama\nLogin System"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <!-- Username -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="Username"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password dengan toggle mata bawaan -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:endIconMode="password_toggle"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Tombol Login -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:text="LOGIN"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#FFD700"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
