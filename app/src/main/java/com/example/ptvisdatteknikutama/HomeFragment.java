@@ -3,6 +3,7 @@ package com.example.ptvisdatteknikutama;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -64,6 +67,9 @@ public class HomeFragment extends Fragment {
     private ActivityResultLauncher<Intent> takePictureLauncher;
     private ActivityResultLauncher<String[]> requestLocationPermissionsLauncher;
     private ActivityResultLauncher<String> requestCameraPermissionLauncher;
+    private ActivityResultLauncher<Intent> enableGpsLauncher;
+
+    private boolean isReturningFromGpsSettings = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,6 +120,14 @@ public class HomeFragment extends Fragment {
                         CustomToast.showToast(getContext(), "Izin kamera diperlukan untuk mengambil foto.", Toast.LENGTH_LONG);
                     }
                 });
+
+        // Launcher untuk GPS settings
+        enableGpsLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    isReturningFromGpsSettings = true;
+                    checkGpsStatus();
+                });
     }
 
     @Nullable
@@ -135,6 +149,10 @@ public class HomeFragment extends Fragment {
         initializeViews(view);
         setupMap(view, savedInstanceState);
         setupClickListeners();
+        
+        // Cek GPS terlebih dahulu sebelum cek permission
+        checkGpsStatus();
+        
         checkLocationPermission();
 
         // Set Username
@@ -224,6 +242,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void checkCameraPermissionAndTakePicture() {
+        // Cek GPS terlebih dahulu sebelum mengambil foto
+        if (!isGpsEnabled()) {
+            showGpsAlertDialog();
+            return;
+        }
+        
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d("HomeFragment", "Camera permission not granted, requesting...");
@@ -231,6 +255,108 @@ public class HomeFragment extends Fragment {
         } else {
             Log.d("HomeFragment", "Camera permission already granted");
             dispatchTakePictureIntent();
+        }
+    }
+
+    /**
+     * Mengecek apakah GPS/Location Services aktif
+     */
+    private boolean isGpsEnabled() {
+        if (locationManager == null) {
+            locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        }
+        
+        boolean gpsEnabled = false;
+        boolean networkEnabled = false;
+        
+        try {
+            gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception e) {
+            Log.e("HomeFragment", "Error checking GPS provider", e);
+        }
+        
+        try {
+            networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+            Log.e("HomeFragment", "Error checking Network provider", e);
+        }
+        
+        return gpsEnabled || networkEnabled;
+    }
+
+    /**
+     * Mengecek status GPS saat fragment dibuka atau kembali dari settings
+     */
+    private void checkGpsStatus() {
+        if (!isGpsEnabled()) {
+            if (isReturningFromGpsSettings) {
+                // Jika kembali dari settings dan GPS masih mati, kembali ke dashboard
+                isReturningFromGpsSettings = false;
+                CustomToast.showToast(getContext(), "GPS tidak aktif. Kembali ke dashboard.", Toast.LENGTH_SHORT);
+                navigateBackToDashboard();
+            } else {
+                // Pertama kali cek, tampilkan dialog
+                showGpsAlertDialog();
+            }
+        } else {
+            isReturningFromGpsSettings = false;
+        }
+    }
+
+    /**
+     * Menampilkan dialog untuk meminta pengguna menyalakan GPS
+     */
+    private void showGpsAlertDialog() {
+        if (getContext() == null) return;
+        
+        // Inflate custom layout
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View dialogView = inflater.inflate(R.layout.dialog_gps_alert, null);
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setView(dialogView)
+                .setCancelable(false)
+                .setPositiveButton("Ya, Aktifkan", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Buka settings lokasi
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        enableGpsLauncher.launch(intent);
+                    }
+                })
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        CustomToast.showToast(getContext(), "Absensi memerlukan GPS aktif. Kembali ke dashboard.", Toast.LENGTH_SHORT);
+                        navigateBackToDashboard();
+                    }
+                });
+        
+        AlertDialog alert = builder.create();
+        alert.show();
+        
+        // Styling tombol (opsional, untuk Material Design)
+        if (alert.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
+            alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.visdat_blue)
+            );
+        }
+        if (alert.getButton(AlertDialog.BUTTON_NEGATIVE) != null) {
+            alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.text_secondary)
+            );
+        }
+    }
+
+    /**
+     * Kembali ke dashboard
+     */
+    private void navigateBackToDashboard() {
+        if (getActivity() != null) {
+            // Jika dalam fragment, cukup close fragment atau navigate
+            // Karena HomeFragment ada di dalam Dashboard, kita bisa kembali ke tab default
+            getActivity().onBackPressed();
         }
     }
 
@@ -349,6 +475,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        
+        // Cek GPS status saat resume (kembali dari activity lain atau screen on)
+        if (!isReturningFromGpsSettings) {
+            // Hanya cek jika bukan dari settings, untuk menghindari double check
+            checkGpsStatus();
+        }
+        
         if (mapView != null) {
             mapView.onResume();
         }

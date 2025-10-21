@@ -34,7 +34,7 @@ public class ApiClient {
     private static final String TAG = "ApiClient";
 
     // Base URL including /api prefix for convenience
-    public static final String API_BASE_URL = "http://192.168.1.21:8000/api";
+    public static final String API_BASE_URL = "http://192.168.136.144:8000/api";
 
     private static OkHttpClient client;
     private static Context appContext;

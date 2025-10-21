@@ -9,8 +9,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +32,11 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     EditText etEmail, etPassword;
-    Button btnLogin;
+    MaterialButton btnLogin;
     TextView tvTitle;
+    ImageView mainLogo;
+    LinearLayout logoContainer;
+    CardView loginCard;
 
     SharedPreferences sharedPreferences;
     public static final String PREFS_NAME = "loginPrefs";
@@ -51,9 +58,14 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.Username);
         etPassword = findViewById(R.id.Password);
         btnLogin = findViewById(R.id.btnLogin);
-        tvTitle = findViewById(R.id.tvTitle);
+        mainLogo = findViewById(R.id.mainLogo);
+        logoContainer = findViewById(R.id.logoContainer);
+        loginCard = findViewById(R.id.loginCard);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        
+        // Tambahkan animasi masuk untuk elemen-elemen UI
+        setupAnimations();
 
         // Auto login jika remember aktif
         boolean rememberLogin = sharedPreferences.getBoolean(KEY_REMEMBER_LOGIN, false);
@@ -78,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // Animasi judul
-        tvTitle.startAnimation(AnimationUtils.loadAnimation(this, R.anim.title_anim));
-
         // Tombol login
         btnLogin.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_scale));
@@ -94,6 +103,17 @@ public class MainActivity extends AppCompatActivity {
             }
             loginToBackend(emailOrUsername, password);
         });
+    }
+
+    private void setupAnimations() {
+        // Animasi untuk logo (scale in dengan bounce)
+        mainLogo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_in));
+        
+        // Animasi untuk logo container (fade in)
+        logoContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_slow));
+        
+        // Animasi untuk login card (slide in dari bawah)
+        loginCard.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
     }
 
     private void loginToBackend(String usernameValue, String password) {
