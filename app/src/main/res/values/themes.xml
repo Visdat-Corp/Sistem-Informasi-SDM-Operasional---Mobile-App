@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme locked to light, no dark mode -->
+    <style name="Base.Theme.PTVisdatTeknikUtama" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_logo</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/shared_logo</item>
+    </style>
+
+    <style name="Theme.PTVisdatTeknikUtama" parent="Base.Theme.PTVisdatTeknikUtama" />
+
+    <!-- Splash theme to avoid white flash -->
+    <style name="Theme.PTVisdatTeknikUtama.Splash" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/visdat_blue</item>
+        <item name="android:statusBarColor">@color/visdat_blue</item>
+        <item name="android:navigationBarColor">@color/visdat_blue</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

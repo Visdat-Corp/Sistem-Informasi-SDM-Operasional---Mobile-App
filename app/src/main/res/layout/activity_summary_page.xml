@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:animateLayoutChanges="true"
+    android:forceDarkAllowed="false"
+    tools:context=".SummaryPage">
+
+    <!-- Toolbar / Top Bar -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#0A4DA3">
+        <!-- Title Bar bisa ditambahkan jika perlu -->
+    </RelativeLayout>
+
+    <!-- Card Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/card_white_rounded_border"
+        android:elevation="8dp"
+        android:animateLayoutChanges="true"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:animateLayoutChanges="true"
+            android:padding="16dp">
+
+            <!-- Foto profil dengan background merah -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="#05101010"
+                android:layout_marginBottom="12dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:padding="8dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/textTimestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="07:15:50 11-11-2021"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:background="#AA000000"
+                    android:padding="4dp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_margin="8dp"/>
+            </FrameLayout>
+
+            <!-- Jenis Absensi -->
+            <TextView
+                android:id="@+id/textJenisAbsensi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jenis Absensi: Cek In"
+                android:textStyle="bold"
+                android:textColor="#0A4DA3"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Informasi -->
+            <TextView
+                android:id="@+id/textJamKehadiranLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jam Kehadiran"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textJamKehadiran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="07:18:45 WIB"
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="#EEEEEE" />
+
+            <TextView
+                android:id="@+id/textWaktuTerlambatLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waktu Terlambat"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textWaktuTerlambat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00:00"
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="#EEEEEE" />
+
+            <TextView
+                android:id="@+id/textLokasiLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lokasi"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textLokasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PT Visdat teknik Utama"
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginTop="2dp" />
+
+            <!-- Tombol Lacak Ulang Lokasi (hidden by default) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRetryLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="24dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="12dp"
+                android:text="🔄 Lacak Ulang Lokasi"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:backgroundTint="#FF9800"
+                app:cornerRadius="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="#EEEEEE" />
+
+            <TextView
+                android:id="@+id/textKoordinatLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Koordinat Posisi"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textKoordinat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Latitude: 3,989787
+Longitude: 98,97736"
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginTop="2dp" />
+
+            <Button
+                android:id="@+id/btnRequestOverride"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minta Override (Manajer SDM)"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#FF5722"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Footer bar -->
+    <RelativeLayout
+        android:id="@+id/footerBar"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:background="#0A4DA3" />
+
+    <!-- Icon ceklis mengambang di atas footer -->
+    <ImageView
+        android:id="@+id/imageCheckmark"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/circle_white_stroke_green"
+        android:padding="16dp"
+        android:src="@drawable/check"
+        android:tint="#2ECC71"
+        android:elevation="10dp" />
+
+</RelativeLayout>

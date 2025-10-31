@@ -1,0 +1,38 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+    android:shareInterpolator="true">
+
+    <!-- Fade in -->
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="700"/>
+
+    <!-- Scale in with slight overshoot effect -->
+    <scale
+        android:fromXScale="0.85"
+        android:toXScale="1.05"
+        android:fromYScale="0.85"
+        android:toYScale="1.05"
+        android:pivotX="50%"
+        android:pivotY="35%"
+        android:duration="600"/>
+
+    <!-- Subtle settle back to 1.0 scale -->
+    <scale
+        android:fromXScale="1.05"
+        android:toXScale="1.0"
+        android:fromYScale="1.05"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="35%"
+        android:startOffset="600"
+        android:duration="200"/>
+
+    <!-- Tiny upward translate for modern feel -->
+    <translate
+        android:fromYDelta="8dp"
+        android:toYDelta="0dp"
+        android:duration="500"/>
+
+</set>
